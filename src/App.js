@@ -10,6 +10,7 @@ import Relatorio from './paginas/Relatorio';
 import FAQ from './paginas/FAQ';
 
 import PrivateRoute from './componentes/PrivateRoute';
+import Layout from './componentes/Layout';
 
 function App() {
   return (
@@ -25,7 +26,9 @@ function App() {
         path="/home"
         element={
           <PrivateRoute>
-            <Home />
+            <Layout>
+              <Home />
+            </Layout>
           </PrivateRoute>
         }
       />
@@ -34,7 +37,9 @@ function App() {
         path="/dashboard"
         element={
           <PrivateRoute>
-            <Dashboard />
+            <Layout>
+              <Dashboard />
+            </Layout>
           </PrivateRoute>
         }
       />
@@ -43,7 +48,9 @@ function App() {
         path="/pets"
         element={
           <PrivateRoute>
-            <Pets />
+            <Layout>
+              <Pets />
+            </Layout>
           </PrivateRoute>
         }
       />
@@ -52,7 +59,9 @@ function App() {
         path="/tutores"
         element={
           <PrivateRoute>
-            <Tutores />
+            <Layout>
+              <Tutores />
+            </Layout>
           </PrivateRoute>
         }
       />
@@ -61,7 +70,9 @@ function App() {
         path="/solicitacoes"
         element={
           <PrivateRoute>
-            <Solicitacoes />
+            <Layout>
+              <Solicitacoes />
+            </Layout>
           </PrivateRoute>
         }
       />
@@ -70,7 +81,9 @@ function App() {
         path="/relatorio"
         element={
           <PrivateRoute>
-            <Relatorio />
+            <Layout>
+              <Relatorio />
+            </Layout>
           </PrivateRoute>
         }
       />
@@ -79,7 +92,9 @@ function App() {
         path="/faq"
         element={
           <PrivateRoute>
-            <FAQ />
+            <Layout>
+              <FAQ />
+            </Layout>
           </PrivateRoute>
         }
       />
