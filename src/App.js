@@ -9,19 +9,80 @@ import Solicitacoes from './paginas/Solicitacoes';
 import Relatorio from './paginas/Relatorio';
 import FAQ from './paginas/FAQ';
 
+import PrivateRoute from './componentes/PrivateRoute';
+
 function App() {
   return (
     <Routes>
+      {/* Rota inicial do sistema */}
       <Route path="/" element={<Navigate to="/login" />} />
 
+      {/* Rota pública */}
       <Route path="/login" element={<Login />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/pets" element={<Pets />} />
-      <Route path="/tutores" element={<Tutores />} />
-      <Route path="/solicitacoes" element={<Solicitacoes />} />
-      <Route path="/relatorio" element={<Relatorio />} />
-      <Route path="/faq" element={<FAQ />} />
+
+      {/* Rotas protegidas */}
+      <Route
+        path="/home"
+        element={
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/pets"
+        element={
+          <PrivateRoute>
+            <Pets />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/tutores"
+        element={
+          <PrivateRoute>
+            <Tutores />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/solicitacoes"
+        element={
+          <PrivateRoute>
+            <Solicitacoes />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/relatorio"
+        element={
+          <PrivateRoute>
+            <Relatorio />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/faq"
+        element={
+          <PrivateRoute>
+            <FAQ />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }
