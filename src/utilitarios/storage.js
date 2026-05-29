@@ -1,17 +1,11 @@
-// Arquivo responsável por centralizar o uso do localStorage.
-// O localStorage será usado como um "banco de dados simulado" no navegador.
-
-// Chaves usadas para salvar os dados do sistema Cafofo dos Peludos.
+// Chaves usadas apenas para dados locais do navegador.
+// Os dados principais dos CRUDs serão armazenados no MySQL.
 export const CHAVES_STORAGE = {
-  PELUDOS: 'cafofo_peludos',
-  INTERESSADOS: 'cafofo_interessados_adocao',
-  PEDIDOS_ADOCAO: 'cafofo_pedidos_adocao',
   USUARIO_LOGADO: 'cafofo_sessao_usuario',
+  IMAGENS_PELUDOS: 'cafofo_imagens_peludos',
 };
 
-// Função para buscar dados no localStorage.
-// Se não existir nada salvo, retorna um valor padrão.
-export function buscarDados(chave, valorPadrao = []) {
+export function buscarDadosLocais(chave, valorPadrao = null) {
   const dados = localStorage.getItem(chave);
 
   if (!dados) {
@@ -21,22 +15,10 @@ export function buscarDados(chave, valorPadrao = []) {
   return JSON.parse(dados);
 }
 
-// Função para salvar dados no localStorage.
-// Como o localStorage só salva texto, usamos JSON.stringify.
-export function salvarDados(chave, dados) {
+export function salvarDadosLocais(chave, dados) {
   localStorage.setItem(chave, JSON.stringify(dados));
 }
 
-// Função para remover uma chave específica do localStorage.
-export function removerDados(chave) {
+export function removerDadosLocais(chave) {
   localStorage.removeItem(chave);
-}
-
-// Função para limpar todos os dados do sistema.
-// Usar com cuidado, porque apaga pets, tutores, solicitações e login.
-export function limparDadosDoSistema() {
-  localStorage.removeItem(CHAVES_STORAGE.PETS);
-  localStorage.removeItem(CHAVES_STORAGE.TUTORES);
-  localStorage.removeItem(CHAVES_STORAGE.SOLICITACOES);
-  localStorage.removeItem(CHAVES_STORAGE.USUARIO_LOGADO);
 }

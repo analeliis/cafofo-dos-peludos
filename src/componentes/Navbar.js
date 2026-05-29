@@ -41,6 +41,11 @@ function Navbar() {
         <li>
           <Link to="/faq">FAQ</Link>
         </li>
+
+        <li>
+          <Link to="/voluntariado">Voluntariado</Link>
+        </li>
+        
       </ul>
 
       <button onClick={sairDoSistema}>

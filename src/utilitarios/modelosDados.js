@@ -1,7 +1,7 @@
-// Este arquivo serve como referência para o grupo.
-// Ele mostra o formato padrão dos dados que serão usados no sistema.
+// Modelos de referência para padronizar os dados do sistema.
+// Os dados principais serão armazenados no MySQL.
 
-// Modelo de pet/peludo usado no CRUD de Pets.
+// Modelo correspondente à tabela peludos.
 export const modeloPeludo = {
   id: 1,
   nome: 'Mel',
@@ -9,10 +9,9 @@ export const modeloPeludo = {
   idade: '8 meses',
   descricao: 'Mel é alegre, delicada e carinhosa.',
   status: 'Disponível',
-  imagem: 'mel.png',
 };
 
-// Modelo de tutor/interessado usado no CRUD de Tutores.
+// Modelo correspondente à tabela interessados.
 export const modeloInteressado = {
   id: 1,
   nome: 'Maria Souza',
@@ -23,12 +22,19 @@ export const modeloInteressado = {
   perfilAdocao: 'Procura um pet calmo para apartamento.',
 };
 
-// Modelo de pedido de adoção usado no CRUD de Solicitações.
+// Modelo correspondente à tabela pedidos_adocao.
 export const modeloPedidoAdocao = {
   id: 1,
-  tutorId: 1,
-  petId: 1,
+  interessadoId: 1,
+  peludoId: 1,
   dataSolicitacao: '2026-06-10',
   status: 'Em análise',
-  observacoes: 'Tutor demonstrou interesse em adoção responsável.',
+  observacoes: 'Interessado demonstrou interesse em adoção responsável.',
+};
+
+// A imagem será tratada localmente no navegador,
+// associada ao id do peludo, e não armazenada no MySQL.
+export const modeloImagemLocalPeludo = {
+  peludoId: 1,
+  imagem: 'imagem_convertida_ou_url_local',
 };

@@ -8,6 +8,7 @@ import Tutores from './paginas/Tutores';
 import Solicitacoes from './paginas/Solicitacoes';
 import Relatorio from './paginas/Relatorio';
 import FAQ from './paginas/FAQ';
+import Voluntariado from './paginas/Voluntariado';
 
 import PrivateRoute from './componentes/PrivateRoute';
 import Layout from './componentes/Layout';
@@ -20,6 +21,8 @@ function App() {
 
       {/* Rota pública */}
       <Route path="/login" element={<Login />} />
+
+      <Route path="/voluntariado" element={<Voluntariado />} />
 
       {/* Rotas protegidas */}
       <Route
