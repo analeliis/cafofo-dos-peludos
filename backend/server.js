@@ -4,6 +4,11 @@ require('dotenv').config();
 
 const conexao = require('./conexao');
 
+const peludosRoutes = require('./rotas/peludosRoutes');
+const interessadosRoutes = require('./rotas/interessadosRoutes');
+const pedidosRoutes = require('./rotas/pedidosRoutes');
+const relatorioRoutes = require('./rotas/relatorioRoutes');
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -35,6 +40,13 @@ app.get('/teste-banco', (req, res) => {
     });
   });
 });
+
+// Rotas principais da API.
+// Cada arquivo ficará responsável pelas operações de uma funcionalidade.
+app.use('/api/peludos', peludosRoutes);
+app.use('/api/interessados', interessadosRoutes);
+app.use('/api/pedidos', pedidosRoutes);
+app.use('/api/relatorio', relatorioRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
