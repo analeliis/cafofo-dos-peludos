@@ -23,15 +23,15 @@ function Navbar() {
         </li>
 
         <li>
-          <Link to="/pets">Pets</Link>
+          <Link to="/pets">Peludos</Link>
         </li>
 
         <li>
-          <Link to="/tutores">Tutores</Link>
+          <Link to="/tutores">Interessados</Link>
         </li>
 
         <li>
-          <Link to="/solicitacoes">Solicitações</Link>
+          <Link to="/solicitacoes">Pedidos de Adoção</Link>
         </li>
 
         <li>
@@ -45,7 +45,7 @@ function Navbar() {
         <li>
           <Link to="/voluntariado">Voluntariado</Link>
         </li>
-        
+
       </ul>
 
       <button onClick={sairDoSistema}>

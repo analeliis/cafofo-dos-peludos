@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS peludos (
     tipo VARCHAR(50) NOT NULL,
     idade VARCHAR(30) NOT NULL,
     descricao TEXT,
-    status VARCHAR(30) NOT NULL DEFAULT 'Disponivel'
+    status VARCHAR(30) NOT NULL DEFAULT 'Disponível'
 );
 
 -- Tabela responsável por armazenar os tutores/interessados em adoção.
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS pedidos_adocao (
     interessado_id INT NOT NULL,
     peludo_id INT NOT NULL,
     data_solicitacao DATE NOT NULL,
-    status VARCHAR(30) NOT NULL DEFAULT 'Em analise',
+    status VARCHAR(30) NOT NULL DEFAULT 'Em análise',
     observacoes TEXT,
 
     FOREIGN KEY (interessado_id) REFERENCES interessados(id),
