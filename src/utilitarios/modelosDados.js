@@ -1,5 +1,7 @@
+
 // Modelos de referência para padronizar os dados do sistema.
-// Os dados principais serão armazenados no MySQL.
+// Este arquivo não salva registros reais.
+// Os dados principais dos CRUDs serão armazenados no MySQL.
 
 // Modelo correspondente à tabela peludos.
 export const modeloPeludo = {
@@ -19,22 +21,23 @@ export const modeloInteressado = {
   telefone: '(61) 99999-9999',
   cidade: 'Brasília',
   endereco: 'Rua Exemplo, 123',
-  perfilAdocao: 'Procura um pet calmo para apartamento.',
+  perfil_adocao: 'Procura um pet calmo para apartamento.',
 };
 
 // Modelo correspondente à tabela pedidos_adocao.
 export const modeloPedidoAdocao = {
   id: 1,
-  interessadoId: 1,
-  peludoId: 1,
-  dataSolicitacao: '2026-06-10',
+  interessado_id: 1,
+  peludo_id: 1,
+  data_solicitacao: '2026-06-10',
   status: 'Em análise',
   observacoes: 'Interessado demonstrou interesse em adoção responsável.',
 };
 
-// A imagem será tratada localmente no navegador,
-// associada ao id do peludo, e não armazenada no MySQL.
+// Modelo apenas para indicar a associação local da imagem.
+// A imagem não será armazenada no MySQL.
 export const modeloImagemLocalPeludo = {
-  peludoId: 1,
+  peludo_id: 1,
   imagem: 'imagem_convertida_ou_url_local',
 };
+
