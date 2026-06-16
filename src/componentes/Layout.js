@@ -2,12 +2,10 @@ import Navbar from './Navbar';
 
 function Layout({ children }) {
   return (
-    <div>
+    <div className="admin-shell">
       <Navbar />
 
-      <main>
-        {children}
-      </main>
+      <main className="admin-content">{children}</main>
     </div>
   );
 }

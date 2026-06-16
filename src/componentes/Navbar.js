@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { CHAVES_STORAGE } from '../utilitarios/storage';
 
 function Navbar() {
@@ -10,48 +10,53 @@ function Navbar() {
   }
 
   return (
-    <nav>
-      <h2>Cafofo dos Peludos</h2>
+    <aside className="admin-sidebar">
+      <div className="admin-sidebar-logo">
+        <img src="/img/logo1.png" alt="Cafofo dos Peludos" />
 
-      <ul>
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
+        <div>
+          <strong>Portal Cafofo</strong>
+          <span>Gestão de adoções</span>
+        </div>
+      </div>
 
-        <li>
-          <Link to="/home">Home</Link>
-        </li>
+      <nav className="admin-sidebar-menu">
+        <NavLink to="/dashboard">
+          <span>01</span>
+          Dashboard
+        </NavLink>
 
-        <li>
-          <Link to="/pets">Peludos</Link>
-        </li>
+        <NavLink to="/pets">
+          <span>02</span>
+          Peludos
+        </NavLink>
 
-        <li>
-          <Link to="/tutores">Interessados</Link>
-        </li>
+        <NavLink to="/tutores">
+          <span>03</span>
+          Interessados
+        </NavLink>
 
-        <li>
-          <Link to="/solicitacoes">Pedidos de Adoção</Link>
-        </li>
+        <NavLink to="/solicitacoes">
+          <span>04</span>
+          Solicitações
+        </NavLink>
 
-        <li>
-          <Link to="/relatorio">Relatório</Link>
-        </li>
+        <NavLink to="/relatorio">
+          <span>05</span>
+          Relatório
+        </NavLink>
+      </nav>
 
-        <li>
-          <Link to="/faq">FAQ</Link>
-        </li>
+      <div className="admin-sidebar-footer">
+        <NavLink to="/" className="admin-sidebar-site">
+          Ver site público
+        </NavLink>
 
-        <li>
-          <Link to="/voluntariado">Voluntariado</Link>
-        </li>
-
-      </ul>
-
-      <button onClick={sairDoSistema}>
-        Sair
-      </button>
-    </nav>
+        <button type="button" onClick={sairDoSistema}>
+          Sair do portal
+        </button>
+      </div>
+    </aside>
   );
 }
 

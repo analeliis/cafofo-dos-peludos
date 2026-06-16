@@ -20,7 +20,7 @@ app.use(express.json());
 
 // Rota inicial para testar se o servidor está funcionando.
 app.get('/', (req, res) => {
-  res.json({ mensagem: 'API do Cafofo dos Peludos funcionando!' });
+  res.json({ mensagem: 'Cafofo dos Peludos funcionando!' });
 });
 
 // Rota temporária para testar se o back-end conecta ao MySQL.
@@ -41,11 +41,12 @@ app.get('/teste-banco', (req, res) => {
   });
 });
 
-// Rotas principais da API.
-// Cada arquivo ficará responsável pelas operações de uma funcionalidade.
+// Rotas principais dos CRUDs.
 app.use('/api/peludos', peludosRoutes);
 app.use('/api/interessados', interessadosRoutes);
 app.use('/api/pedidos', pedidosRoutes);
+
+// Rota do relatório com JOIN.
 app.use('/api/relatorio', relatorioRoutes);
 
 app.listen(PORT, () => {

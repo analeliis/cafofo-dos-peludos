@@ -11,4 +11,17 @@ const conexao = mysql.createPool({
   port: process.env.DB_PORT,
 });
 
+// Teste inicial da conexão com o banco
+conexao.getConnection((erro, connection) => {
+  if (erro) {
+    console.error('Erro ao conectar ao MySQL:', erro);
+    return;
+  }
+
+  console.log('Conectado ao banco cafofo_dos_peludos!');
+
+  // Libera a conexão de volta para o pool
+  connection.release();
+});
+
 module.exports = conexao;
