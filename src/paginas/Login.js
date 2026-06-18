@@ -12,7 +12,7 @@ function Login() {
   function entrarNoSistema(event) {
     event.preventDefault();
 
-    const emailDigitado = email.trim();
+    const emailDigitado = email.trim(); // REMOVE ESPAÇOS 
     const senhaDigitada = senha.trim();
 
     if (!emailDigitado || !senhaDigitada) {
@@ -30,14 +30,14 @@ function Login() {
       return;
     }
 
-    const usuarioTeste = {
+    const usuarioTeste = { // criamos um objeto representando o usuário logado.
       email: emailDigitado,
       nome: "Equipe Cafofo",
     };
 
     localStorage.setItem(
       CHAVES_STORAGE.USUARIO_LOGADO,
-      JSON.stringify(usuarioTeste),
+      JSON.stringify(usuarioTeste), //Transforma objeto em texto
     );
 
     setErro("");

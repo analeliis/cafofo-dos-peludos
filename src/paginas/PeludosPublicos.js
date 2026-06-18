@@ -110,7 +110,7 @@ const detalhesVisuaisPeludos = {
 };
 
 function PeludosPublicos() {
-  const [peludos, setPeludos] = useState([]);
+  const [peludos, setPeludos] = useState([]); /* */
   const [carregandoPeludos, setCarregandoPeludos] = useState(false);
   const [erroPeludos, setErroPeludos] = useState("");
 
@@ -138,7 +138,7 @@ function PeludosPublicos() {
   const [interesseEnviado, setInteresseEnviado] = useState(false);
   const [enviandoInteresse, setEnviandoInteresse] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => { //carregar a funcao 
     carregarPeludos();
   }, []);
 

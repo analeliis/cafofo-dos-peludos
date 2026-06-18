@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { CHAVES_STORAGE } from '../utilitarios/storage';
 
 function Navbar() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //permite redirecionar pelo código por meio de uma função / logico
 
   function sairDoSistema() {
     localStorage.removeItem(CHAVES_STORAGE.USUARIO_LOGADO);
@@ -21,7 +21,7 @@ function Navbar() {
       </div>
 
       <nav className="admin-sidebar-menu">
-        <NavLink to="/dashboard">
+        <NavLink to="/dashboard"> 
           <span>01</span>
           Dashboard
         </NavLink>
