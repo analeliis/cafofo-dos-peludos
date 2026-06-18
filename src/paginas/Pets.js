@@ -16,26 +16,41 @@ const formularioInicial = {
 };
 
 function Pets() {
+  /* Aqui eu preparo todo o "terreno" do meu componente. 
+    Uso múltiplos useState para separar as responsabilidades: dados, formulário e feedbacks visuais.
+  */
   const [peludos, setPeludos] = useState([]);
   const [formulario, setFormulario] = useState(formularioInicial);
   const [idEdicao, setIdEdicao] = useState(null);
   const [imagemPreview, setImagemPreview] = useState("");
   const [imagemFoiAlterada, setImagemFoiAlterada] = useState(false);
+  
+  // Estados para dar feedback ao usuário sobre o que está acontecendo
   const [carregando, setCarregando] = useState(false);
   const [salvando, setSalvando] = useState(false);
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState("");
 
+  // Estados exclusivos para a área de busca e filtros
   const [busca, setBusca] = useState("");
   const [tipoFiltro, setTipoFiltro] = useState("Todos");
   const [statusFiltro, setStatusFiltro] = useState("Todos");
 
+  /* Crio essa referência para conseguir manipular diretamente o input de arquivo (foto).
+    Como inputs 'file' não podem ser controlados via 'value' no React por segurança, 
+    eu uso a ref para limpá-lo manualmente depois que salvo ou cancelo a edição.
+  */
   const inputImagemRef = useRef(null);
 
+  /*
+    Meu gatilho inicial: assim que a tela abre, eu peço para o React executar 
+    a função de buscar os dados lá no servidor.
+  */
   useEffect(() => {
     carregarPeludos();
   }, []);
 
+  // Função responsável por buscar os dados da API
   async function carregarPeludos() {
     try {
       setCarregando(true);
@@ -48,15 +63,15 @@ function Pets() {
       }
 
       const dados = await resposta.json();
-
       setPeludos(dados);
     } catch (error) {
       setErro(error.message);
     } finally {
-      setCarregando(false);
+      setCarregando(false); // Garanto que o loading suma, dando certo ou errado
     }
   }
 
+  // Função genérica para atualizar qualquer campo de texto/select do meu formulário
   function atualizarCampo(evento) {
     const { name, value } = evento.target;
 
@@ -66,6 +81,11 @@ function Pets() {
     }));
   }
 
+  /*
+    Quando o usuário escolhe uma foto, eu não mando para o servidor na hora.
+    Eu pego o arquivo, uso o FileReader do navegador para lê-lo como Base64
+    e salvo no estado para gerar um preview instantâneo na tela.
+  */
   function selecionarImagem(evento) {
     const arquivo = evento.target.files[0];
 
@@ -76,33 +96,40 @@ function Pets() {
     const leitor = new FileReader();
 
     leitor.onloadend = () => {
-      setImagemPreview(leitor.result);
-      setImagemFoiAlterada(true);
+      setImagemPreview(leitor.result); // O resultado da leitura vira a imagem de preview
+      setImagemFoiAlterada(true); // Marco que a imagem sofreu alteração
     };
 
     leitor.readAsDataURL(arquivo);
   }
 
+  // Volto o formulário para o estado zerado original
   function limparFormulario() {
     setFormulario(formularioInicial);
     setIdEdicao(null);
     setImagemPreview("");
     setImagemFoiAlterada(false);
 
+    // Limpo o input de arquivo fisicamente usando a referência que criei
     if (inputImagemRef.current) {
       inputImagemRef.current.value = "";
     }
   }
 
+  // Volto os filtros de busca para o padrão
   function limparFiltros() {
     setBusca("");
     setTipoFiltro("Todos");
     setStatusFiltro("Todos");
   }
 
+  /*
+    O coração do meu CRUD: a função que decide se estou criando ou editando um registro.
+  */
   async function salvarPeludo(evento) {
-    evento.preventDefault();
+    evento.preventDefault(); // Evito o recarregamento padrão da página
 
+    // Validação básica para não enviar dados incompletos
     if (
       !formulario.nome ||
       !formulario.tipo ||
@@ -118,6 +145,10 @@ function Pets() {
       setErro("");
       setMensagem("");
 
+      /* Aqui está a minha lógica condicional: 
+        Se tenho um idEdicao, monto a URL apontando para ele e uso o método PUT.
+        Se não tenho, uso a URL base e o método POST para criar um novo.
+      */
       const url = idEdicao ? `${API_PELUDOS}/${idEdicao}` : API_PELUDOS;
       const metodo = idEdicao ? "PUT" : "POST";
 
@@ -137,8 +168,10 @@ function Pets() {
         );
       }
 
+      // Descubro qual ID usar para atrelar a imagem (o que editei ou o que acabei de criar)
       const idParaImagem = idEdicao || dadosResposta.id;
 
+      // Se a imagem foi alterada durante esse processo, eu a salvo
       if (imagemFoiAlterada && imagemPreview && idParaImagem) {
         salvarImagemPeludo(idParaImagem, imagemPreview);
       }
@@ -150,7 +183,7 @@ function Pets() {
       );
 
       limparFormulario();
-      await carregarPeludos();
+      await carregarPeludos(); // Recarrego a lista para mostrar a tabela atualizada
     } catch (error) {
       setErro(error.message);
     } finally {
@@ -158,6 +191,10 @@ function Pets() {
     }
   }
 
+  /*
+    Quando clico no botão "Editar" na tabela, eu executo essa função para preencher
+    o formulário no topo da página com os dados daquela linha específica.
+  */
   function editarPeludo(peludo) {
     setIdEdicao(peludo.id);
 
@@ -169,17 +206,20 @@ function Pets() {
       status: peludo.status || "Disponível",
     });
 
+    // Pego a imagem atual para mostrar no preview
     setImagemPreview(obterImagemPeludo(peludo.id));
     setImagemFoiAlterada(false);
     setMensagem("");
     setErro("");
 
+    // Rolo a tela suavemente para o topo para o usuário ver o formulário
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   }
 
+  // Função para deletar o registro após confirmação do usuário
   async function excluirPeludo(id) {
     const confirmarExclusao = window.confirm(
       "Tem certeza que deseja excluir este peludo?"
@@ -207,6 +247,7 @@ function Pets() {
 
       removerImagemPeludo(id);
 
+      // Se eu estava editando justamente o pet que acabei de excluir, eu limpo o form
       if (idEdicao === id) {
         limparFormulario();
       }
@@ -218,6 +259,11 @@ function Pets() {
     }
   }
 
+  /*
+    Aqui eu calculo a lista filtrada em tempo real, "on the fly". 
+    Em vez de criar um useState só para resultados de busca, eu processo a lista 
+    original a cada renderização, cruzando os dados digitados e selecionados.
+  */
   const peludosFiltrados = peludos.filter((peludo) => {
     const textoBusca = busca.trim().toLowerCase();
 
@@ -227,6 +273,7 @@ function Pets() {
     const descricao = (peludo.descricao || "").toLowerCase();
     const status = (peludo.status || "").toLowerCase();
 
+    // Vejo se o texto digitado bate com algum dos campos
     const combinaBusca =
       textoBusca === "" ||
       nome.includes(textoBusca) ||
@@ -258,6 +305,7 @@ function Pets() {
         </button>
       </div>
 
+      {/* Renderização condicional das mensagens de feedback */}
       {mensagem && <div className="crud-alerta sucesso">{mensagem}</div>}
       {erro && <div className="crud-alerta erro">{erro}</div>}
 
@@ -336,6 +384,7 @@ function Pets() {
             />
           </label>
 
+          {/* Se a imagem foi selecionada/carregada, exibo o preview aqui */}
           {imagemPreview && (
             <div className="crud-preview-imagem">
               <img src={imagemPreview} alt="Prévia do peludo" />
@@ -352,6 +401,7 @@ function Pets() {
                 : "Cadastrar peludo"}
             </button>
 
+            {/* Só exibo o botão de cancelar edição se houver de fato um ID em edição */}
             {idEdicao && (
               <button
                 type="button"
@@ -412,6 +462,7 @@ function Pets() {
             </button>
           </div>
 
+          {/* Lógica de renderização da tabela, estados vazios e carregamento */}
           {carregando ? (
             <div className="crud-vazio">Carregando peludos...</div>
           ) : peludosFiltrados.length === 0 ? (
@@ -432,6 +483,7 @@ function Pets() {
                 </thead>
 
                 <tbody>
+                  {/* Utilizo os peludos filtrados, e não a lista inteira, para gerar as linhas */}
                   {peludosFiltrados.map((peludo) => (
                     <tr key={peludo.id}>
                       <td>
