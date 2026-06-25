@@ -7,7 +7,7 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [erro, setErro] = useState("");
+  const [erro, setErro] = useState(""); //variavel de estado
 
   function entrarNoSistema(event) {
     event.preventDefault();

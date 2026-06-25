@@ -19,7 +19,8 @@ import Layout from "./componentes/Layout";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      
+      <Route path="/" element={<Home />} />  
       <Route path="/home" element={<Home />} />
       <Route path="/peludos" element={<PeludosPublicos />} />
       <Route path="/como-adotar" element={<ComoAdotar />} />
