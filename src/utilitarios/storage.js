@@ -1,4 +1,5 @@
-// Chaves usadas apenas para dados locais do navegador.
+// Aqui no storage.js ficam apenas dados locais do navegador,
+// como sessão do usuário e imagens dos peludos.
 // Os dados principais dos CRUDs são armazenados no MySQL.
 
 export const CHAVES_STORAGE = {
@@ -6,6 +7,7 @@ export const CHAVES_STORAGE = {
   IMAGENS_PELUDOS: 'cafofo_imagens_peludos',
 };
 
+// A relação é feita pelo id do peludo.
 
 export const IMAGENS_FIXAS_PELUDOS = {
   1: '/img/peludos/peludo1.jpg',
@@ -30,7 +32,9 @@ export const IMAGENS_FIXAS_PELUDOS = {
   20: '/img/peludos/peludo20.jpg',
 };
 
-export function buscarDadosLocais(chave, valorPadrao = null) {
+// função para buscar os dados dentro do localStroge
+//Busque as imagens dos peludos. Se não tiver nada salvo, retorne um objeto vazio.
+export function buscarDadosLocais(chave, valorPadrao = null) { 
   try {
     const dados = localStorage.getItem(chave); //Aqui ele procura no localStorage se existe algo salvo naquela chave.
 
@@ -38,7 +42,7 @@ export function buscarDadosLocais(chave, valorPadrao = null) {
       return valorPadrao;
     }
 
-    return JSON.parse(dados);
+    return JSON.parse(dados); //transforma esse texto de volta em objeto/array.
   } catch (error) { //Evita que aplicação quebre se tiver algum dado invalido 
     return valorPadrao;
   }
@@ -48,23 +52,32 @@ export function salvarDadosLocais(chave, dados) {
   localStorage.setItem(chave, JSON.stringify(dados));
 }
 
+// Ela recebe a chave e apaga o conteúdo salvo naquela chave.
 export function removerDadosLocais(chave) {
   localStorage.removeItem(chave);
 }
 
+// Se não tiver nenhuma imagem salva, retorna um objeto vazio {}.
 export function buscarImagensPeludos() {
   return buscarDadosLocais(CHAVES_STORAGE.IMAGENS_PELUDOS, {});
 }
 
+// Função responsável por decidir qual imagem será exibida para um peludo.
+// recebe o id do peludo que vem do MySQL
 export function obterImagemPeludo(id) {
+
+  // Busca as imagens que já existem no localStorage.
   const imagensSalvas = buscarImagensPeludos();
 
+  // Tenta encontrar uma imagem salva para o id recebido. 
   const imagemSalva = imagensSalvas[id];
 
+  // Se existir uma imagem salva para esse peludo, retorna ela.
   if (imagemSalva) {
     return imagemSalva;
   }
 
+  // Se não tiver imagem salva, tenta pegar uma imagem fixa pelo id.
   const imagemFixa = IMAGENS_FIXAS_PELUDOS[id];
 
   if (imagemFixa) {
@@ -75,16 +88,21 @@ export function obterImagemPeludo(id) {
 }
 
 export function salvarImagemPeludo(id, imagem) {
+  // Busca as imagens que já existem no localStorage.
   const imagensSalvas = buscarImagensPeludos();
 
+  // Adiciona ou atualiza a imagem do peludo usando o id.
   imagensSalvas[id] = imagem;
 
+  // Salva novamente o objeto atualizado no localStorage.
   salvarDadosLocais(CHAVES_STORAGE.IMAGENS_PELUDOS, imagensSalvas);
 }
 
 export function removerImagemPeludo(id) {
+  // Busca as imagens salvas no localStorage.
   const imagensSalvas = buscarImagensPeludos();
 
+  // Remove a imagem associada ao id recebido.
   delete imagensSalvas[id];
 
   salvarDadosLocais(CHAVES_STORAGE.IMAGENS_PELUDOS, imagensSalvas);
